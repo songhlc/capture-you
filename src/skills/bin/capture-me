@@ -1,0 +1,4 @@
+#!/bin/bash
+# capture-me CLI 入口
+DIR="$(cd "$(dirname "$0")/.." && pwd)"
+exec node "$DIR/lib/capture.js" "$@"
