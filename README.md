@@ -14,6 +14,23 @@
 
 ---
 
+## 安装
+
+### 方式一：Claude Code 用户
+
+```bash
+# 1. 复制 skill 到你的 Claude Code 配置目录
+cp -r src/skills ~/.claude/skills/capture-me
+
+# 2. 重启 Claude Code
+# 3. 输入 /capture-me 开始使用
+```
+
+### 方式二：OpenClaw 用户（推荐）
+
+和openclaw说：请帮我安装这个skills：https://github.com/songhlc/capture-me
+
+
 ## 适合谁用
 
 知己不是给所有人的。
@@ -201,21 +218,6 @@
 *知己，懂你的那个。*
 
 
-## 安装
-
-### 方式一：Claude Code 用户（推荐）
-
-```bash
-# 1. 复制 skill 到你的 Claude Code 配置目录
-cp -r src/skills ~/.claude/skills/capture-me
-
-# 2. 重启 Claude Code
-# 3. 输入 /capture-me 开始使用
-```
-
-### 方式二：OpenClaw 用户
-
-和openclaw说：请帮我安装这个skills：https://github.com/songhlc/capture-me
 
 ---
 
