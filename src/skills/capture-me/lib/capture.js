@@ -220,8 +220,51 @@ async function main() {
   const args = process.argv.slice(2);
   const subcommand = args[0];
 
-  // init 命令
+  // init 命令 — 支持追问式交互
   if (subcommand === 'init') {
+    const input = args.slice(1).join(' ').trim();
+
+    // 如果有输入内容，先尝试作为答案处理
+    if (input) {
+      // 先尝试继续对话
+      let result = setup.answer(input);
+
+      // 如果没有进行中的对话，开始新对话并把当前输入作为第一个答案
+      if (result.error && result.error.includes('无进行中的对话')) {
+        const startResult = setup.start();
+        if (startResult.done) {
+          console.log(`\n✓ 你已完成初始化设置`);
+          console.log(`  称呼：${startResult.profile?.['称呼'] || '未知'}`);
+          console.log(`  职业：${startResult.profile?.['职业/领域'] || '未知'}`);
+          return;
+        }
+        // 开始新对话后，把输入作为第一个问题的答案
+        result = setup.answer(input);
+      }
+
+      if (result.error) {
+        console.log(`\n⚠️ ${result.error}\n`);
+        return;
+      }
+
+      if (result.done) {
+        console.log(`\n✓ 初始化完成！`);
+        console.log(`  称呼：${result.profile?.['称呼'] || '未设置'}\n`);
+        return;
+      }
+
+      const { question, progress } = result;
+      const optionsText = question.options ? ` （${question.options.join(' / ')}）` : '';
+      const defaultText = question.default ? `[${question.default}]` : '[直接回车跳过]';
+
+      console.log(`\n  第 ${progress.current}/${progress.total} 题\n`);
+      console.log(`  ${question.text}${optionsText}`);
+      console.log(`  ${defaultText}`);
+      console.log(`\n  请回复你的答案。\n`);
+      return;
+    }
+
+    // 无输入时，开始或继续初始化
     const result = setup.start();
 
     if (result.done) {
