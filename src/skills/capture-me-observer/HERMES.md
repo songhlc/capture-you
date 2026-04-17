@@ -28,7 +28,7 @@
 ### 调用方式
 将信号写入 capture-me 数据库：
 
-node ~/.hermes/skills/capture-me/lib/observe-async.js '{"dimension":"emotion","signal":"用户提到加班很累","confidence":0.8,"source":"hermes","conversation_id":"'$(date +%s)'"}'
+node ~/.hermes/skills/capture-me/lib/observe-async.js '{"text":"最近加班很累","source":"hermes"}'
 
 ### 频率控制
 - 每条消息最多提取 2 个信号（避免刷屏）

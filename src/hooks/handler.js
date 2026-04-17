@@ -6,10 +6,10 @@
 
 const { spawn } = require('child_process');
 const path = require('path');
+const { resolveCaptureMeDir } = require('./paths');
 
-// capture-me 增强版核心库路径
-const CAPTURE_ME_DIR = path.join(process.env.HOME, '.claude', 'skills', 'capture-me');
-const ENHANCED_OBSERVER = path.join(CAPTURE_ME_DIR, 'lib', 'enhanced-observer-write.js');
+const CAPTURE_ME_DIR = resolveCaptureMeDir();
+const OBSERVER_SCRIPT = path.join(CAPTURE_ME_DIR, 'lib', 'observe-async.js');
 
 // Hook 主函数
 async function handler(event) {
@@ -25,10 +25,9 @@ async function handler(event) {
     return;
   }
 
-  // 调用 capture-me 增强版异步写入接口
-  // detached: true 脱离父进程，静默执行，不阻塞 hook
+  // 调用 capture-me 异步观察接口
   spawn('node', [
-    ENHANCED_OBSERVER,
+    OBSERVER_SCRIPT,
     JSON.stringify({
       text: content,
       source: 'openclaw',
@@ -41,4 +40,4 @@ async function handler(event) {
 }
 
 module.exports = handler;
-export default handler;
+module.exports.default = handler;

@@ -22,7 +22,7 @@ capture-me 的被动观察功能通过 OpenClaw Hook 实现，位于：
 
 Hook 写入 capture-me 的同一数据库：
 ```
-~/.claude/skills/capture-me/sqlite/capture.db
+<agent-home>/skills/capture-me/sqlite/capture.db
 ```
 
 ### 文件同步关系
@@ -59,8 +59,8 @@ capture-me 的 observer 核心库可以被多个 Agent 共用：
 Agent Hook/集成          → capture-me 核心库
 ─────────────────────────────────────────────
 OpenClaw Hook             → observe-async.js
-Claude Code (待实现)     → observe-async.js
-Codex (待实现)           → observe-async.js
+Claude Code Prompt       → observe-async.js
+Codex AGENTS.md          → observe-async.js
 ```
 
 各 Agent 只需调用 `observe-async.js` 即可将信号写入 capture-me 数据库。

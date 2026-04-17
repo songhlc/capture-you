@@ -137,6 +137,36 @@ cp src/skills/capture-me-observer/CLAUDE.md ~/.claude/CLAUDE.md
 
 > **自动观察说明**：将 `CLAUDE.md` 内容追加到你的 `~/.claude/CLAUDE.md` 中，AI 会自动在对话中提取画像信号并静默写入数据库。每次对话都会自动收集，无需手动触发。
 
+### Codex 用户
+
+```bash
+# 1. 复制主技能
+cp -r src/skills/capture-me ~/.codex/skills/
+
+# 2. 复制被动观察技能
+cp -r src/skills/capture-me-observer ~/.codex/skills/
+
+# 3. 安装主技能依赖
+cd ~/.codex/skills/capture-me && npm install
+
+# 4. 将自动观察规则追加到项目根 AGENTS.md
+cat src/skills/capture-me-observer/CODEX-AGENTS.md >> AGENTS.md
+
+# 5. 重启 Codex
+# 6. 在对话中直接提到 capture-me skill
+```
+
+```text
+例子：
+- 用 capture-me 记录：今天跟张总确认合同，下周签约
+- 用 capture-me 执行 init
+- 用 capture-me 查询最近一周的待办
+```
+
+> **Codex 使用说明**：Codex 通过 skill 名称触发能力，不使用 `/capture-me` 这种 slash command。安装后，在对话中直接提到 `capture-me` 或 `$capture-me` 即可。
+>
+> **自动观察说明**：Codex 通过项目根 `AGENTS.md` 生效。将 `CODEX-AGENTS.md` 追加进去后，Codex 会在每轮用户消息时后台调用 `observe-async.js`，静默写入画像信号，不影响正常回复。首次安装后需先在 `~/.codex/skills/capture-me` 下执行 `npm install`。
+
 ### OpenClaw 用户
 
 ```bash
@@ -170,7 +200,11 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 安装后运行初始化，完成用户画像设置：
 
 ```
+Claude Code / Hermes:
 /capture-me init
+
+Codex:
+用 capture-me 执行 init
 ```
 
 ---
@@ -195,6 +229,8 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 **在 OpenClaw 环境中：** 自动通过 Hook 拦截消息，无需额外操作。
 
 **在 Claude Code 环境中：** 需将 `CLAUDE.md` 中的 Prompt 追加到 `~/.claude/CLAUDE.md`，AI 会自动在对话中提取信号。
+
+**在 Codex 环境中：** 需将 `CODEX-AGENTS.md` 追加到项目根 `AGENTS.md`，Codex 会在每轮用户消息时静默调用 observer。
 
 **在 Hermes 环境中：** 需将 `HERMES.md` 中的 Prompt 追加到 Hermes 系统配置，AI 会自动在对话中提取信号。
 
@@ -232,11 +268,13 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 | `/capture-me config [get\|set\|list]` | 配置管理 |
 | `/capture-me mirror` | 镜子状态/承诺追踪 |
 
-### 自动观察（OpenClaw + Claude Code + Hermes）
+### 自动观察（OpenClaw + Claude Code + Codex + Hermes）
 
 **OpenClaw：** Hook 部署后自动生效，无需手动操作。
 
 **Claude Code：** 追加 `CLAUDE.md` Prompt 到 `~/.claude/CLAUDE.md` 后自动生效。
+
+**Codex：** 追加 `CODEX-AGENTS.md` 到项目根 `AGENTS.md` 后自动生效。
 
 **Hermes：** 追加 `HERMES.md` Prompt 到 Hermes 系统配置后自动生效。
 
@@ -249,8 +287,8 @@ node ~/.openclaw/hooks/capture-me-observer/observe.js
 # OpenClaw 查看信号统计
 node ~/.openclaw/hooks/capture-me-observer/observe.js --stat
 
-# Claude Code 查看信号（通过主技能）
-/capture-me stat
+# Codex / Claude Code / Hermes 查看信号（通过主技能）
+node ~/.codex/skills/capture-me/lib/observe-core.js --stat
 ```
 
 

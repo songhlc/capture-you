@@ -40,7 +40,8 @@ metadata:
 ## 数据库
 
 写入 capture-me 同一数据库：
-- `~/.claude/skills/capture-me/sqlite/capture.db`
+- `~/.openclaw/skills/capture-me/sqlite/capture.db`
+- 若 OpenClaw 目录不存在，会自动回退查找 `.codex/.claude/.hermes` 下的 `capture-me`
 
 ## 异步写入
 

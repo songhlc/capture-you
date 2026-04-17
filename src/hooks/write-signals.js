@@ -7,9 +7,9 @@
 
 const path = require('path');
 const fs = require('fs');
+const { resolveCaptureMeDir } = require('./paths');
 
-const HOME = process.env.HOME || '/Users/windknow';
-const CAPTURE_ME_DIR = path.join(HOME, '.claude', 'skills', 'capture-me');
+const CAPTURE_ME_DIR = resolveCaptureMeDir();
 const DB_PATH = path.join(CAPTURE_ME_DIR, 'sqlite', 'capture.db');
 const LOG_DIR = path.join(__dirname, 'logs');
 const QUEUE_DIR = path.join(__dirname, 'queue');

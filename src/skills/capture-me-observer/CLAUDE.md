@@ -24,7 +24,7 @@
 将信号写入 capture-me 数据库：
 
 ```bash
-node ~/.claude/skills/capture-me/lib/observe-async.js '{"dimension":"emotion","signal":"用户提到加班很累","confidence":0.8,"source":"claude-code","conversation_id":"'$(date +%s)'"}'
+node ~/.claude/skills/capture-me/lib/observe-async.js '{"text":"最近加班很累","source":"claude-code"}'
 ```
 
 ### 频率控制

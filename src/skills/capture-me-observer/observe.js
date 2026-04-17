@@ -11,12 +11,14 @@
 const path = require('path');
 const fs = require('fs');
 const { spawn } = require('child_process');
+const { resolveCaptureMeDir, resolveDbPath } = require('./paths');
 
 // ─── 路径配置 ─────────────────────────────────────────────
 
-const CAPTURE_ME_DIR = path.join(process.env.HOME, '.claude', 'skills', 'capture-me');
+const CAPTURE_ME_DIR = resolveCaptureMeDir();
 const OBSERVER_DIR = __dirname;
 const db = require(path.join(CAPTURE_ME_DIR, 'lib', 'db.js'));
+const DB_PATH = resolveDbPath();
 const QUEUE_DIR = path.join(OBSERVER_DIR, 'queue');     // 失败队列
 const LOG_DIR = path.join(OBSERVER_DIR, 'logs');         // 日志目录
 
@@ -196,7 +198,7 @@ function main() {
       });
     }
     console.log('');
-    log_cli('dim', '  数据库: ~/.claude/skills/capture-me/sqlite/capture.db');
+    log_cli('dim', `  数据库: ${DB_PATH}`);
     console.log('');
     log_cli('dim', '  用法:');
     log_cli('dim', '    node observe.js --stat             # 统计信息');
