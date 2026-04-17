@@ -7,8 +7,10 @@
 
 const path = require('path');
 const fs = require('fs');
+const { resolveCaptureMeDir, resolveDbPath } = require('./paths');
 
-const CAPTURE_ME_DIR = path.join(process.env.HOME, '.claude', 'skills', 'capture-me');
+const CAPTURE_ME_DIR = resolveCaptureMeDir();
+const DB_PATH = resolveDbPath();
 const LOG_DIR = path.join(__dirname, 'logs');
 const LOG_FILE = path.join(LOG_DIR, `write-${new Date().toISOString().split('T')[0]}.log`);
 
@@ -52,7 +54,7 @@ async function main() {
 
   // 异步写入
   const Database = require(path.join(CAPTURE_ME_DIR, 'node_modules', 'better-sqlite3'));
-  const db = new Database(path.join(CAPTURE_ME_DIR, 'sqlite', 'capture.db'));
+  const db = new Database(DB_PATH);
 
   try {
     // 确保表存在

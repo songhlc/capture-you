@@ -137,6 +137,24 @@ cp src/skills/capture-me-observer/CLAUDE.md ~/.claude/CLAUDE.md
 
 > **自动观察说明**：将 `CLAUDE.md` 内容追加到你的 `~/.claude/CLAUDE.md` 中，AI 会自动在对话中提取画像信号并静默写入数据库。每次对话都会自动收集，无需手动触发。
 
+### Codex 用户
+
+```bash
+# 1. 复制主技能
+cp -r src/skills/capture-me ~/.codex/skills/
+
+# 2. 安装主技能依赖
+cd ~/.codex/skills/capture-me && npm install
+
+# 3. （可选）复制被动观察技能
+cp -r src/skills/capture-me-observer ~/.codex/skills/
+
+# 4. 将自动观察规则追加到项目根 AGENTS.md
+cat src/skills/capture-me-observer/CODEX-AGENTS.md >> AGENTS.md
+```
+
+> **Codex 使用说明**：Codex 通过对话调用技能，不使用 `/capture-me` 这种 slash command。安装后可直接在对话中说“用 capture-me 记录今天做了什么”“用 capture-me 执行 init”“用 capture-me 查询最近一周的待办”。
+
 ### OpenClaw 用户
 
 ```bash
@@ -170,7 +188,11 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 安装后运行初始化，完成用户画像设置：
 
 ```
+Claude Code / OpenClaw / Hermes:
 /capture-me init
+
+Codex:
+用 capture-me 执行 init
 ```
 
 ---
@@ -195,6 +217,8 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 **在 OpenClaw 环境中：** 自动通过 Hook 拦截消息，无需额外操作。
 
 **在 Claude Code 环境中：** 需将 `CLAUDE.md` 中的 Prompt 追加到 `~/.claude/CLAUDE.md`，AI 会自动在对话中提取信号。
+
+**在 Codex 环境中：** 需将 `CODEX-AGENTS.md` 追加到项目根 `AGENTS.md`，Codex 会在用户消息后后台调用 observer。
 
 **在 Hermes 环境中：** 需将 `HERMES.md` 中的 Prompt 追加到 Hermes 系统配置，AI 会自动在对话中提取信号。
 
@@ -232,11 +256,13 @@ cat src/skills/capture-me-observer/HERMES.md >> ~/.hermes/config/prompt.md
 | `/capture-me config [get\|set\|list]` | 配置管理 |
 | `/capture-me mirror` | 镜子状态/承诺追踪 |
 
-### 自动观察（OpenClaw + Claude Code + Hermes）
+### 自动观察（OpenClaw + Claude Code + Codex + Hermes）
 
 **OpenClaw：** Hook 部署后自动生效，无需手动操作。
 
 **Claude Code：** 追加 `CLAUDE.md` Prompt 到 `~/.claude/CLAUDE.md` 后自动生效。
+
+**Codex：** 追加 `CODEX-AGENTS.md` 到项目根 `AGENTS.md` 后自动生效。
 
 **Hermes：** 追加 `HERMES.md` Prompt 到 Hermes 系统配置后自动生效。
 
